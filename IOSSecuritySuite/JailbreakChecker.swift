@@ -22,27 +22,27 @@ internal class JailbreakChecker {
     let failedChecks: [FailedCheckType]
   }
   
-  static func amIJailbroken() -> Bool {
-    return !performChecks().passed
+  static func amIJailbroken(_ skippedCases: Set<FailedCheck>) -> Bool {
+    return !performChecks(skippedCases).passed
   }
   
-  static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
-    let status = performChecks()
+  static func amIJailbrokenWithFailMessage(_ skippedCases: Set<FailedCheck>) -> (jailbroken: Bool, failMessage: String) {
+    let status = performChecks(skippedCases)
     return (!status.passed, status.failMessage)
   }
   
-  static func amIJailbrokenWithFailedChecks() -> (jailbroken: Bool,
+  static func amIJailbrokenWithFailedChecks(_ skippedCases: Set<FailedCheck>) -> (jailbroken: Bool,
                                                   failedChecks: [FailedCheckType]) {
-    let status = performChecks()
+    let status = performChecks(skippedCases)
     return (!status.passed, status.failedChecks)
   }
   
-  private static func performChecks() -> JailbreakStatus {
+	private static func performChecks(_ skippedCases: Set<FailedCheck>) -> JailbreakStatus {
     var passed = true
     var failMessage = ""
     var failedChecks: [FailedCheckType] = []
     
-    for check in FailedCheck.allCases {
+		for check in FailedCheck.allCases.filter({ !skippedCases.contains($0)}) {
       let result = getResult(from: check)
       
       passed = passed && result.passed

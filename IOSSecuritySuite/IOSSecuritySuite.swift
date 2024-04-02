@@ -21,8 +21,8 @@ public class IOSSecuritySuite {
   /// ```
   ///
   /// - Returns: Bool indicating if the device has jailbreak (true) or not (false)
-  public static func amIJailbroken() -> Bool {
-    return JailbreakChecker.amIJailbroken()
+  public static func amIJailbroken(_ skippedCases: Set<FailedCheck> = []) -> Bool {
+    return JailbreakChecker.amIJailbroken(skippedCases)
   }
   
   /// This type method is used to determine the jailbreak status with a message which jailbreak indicator was detected
@@ -39,8 +39,8 @@ public class IOSSecuritySuite {
   /// ```
   ///
   /// - Returns: Tuple with with the jailbreak status (Bool) and failMessage (String)
-  public static func amIJailbrokenWithFailMessage() -> (jailbroken: Bool, failMessage: String) {
-    return JailbreakChecker.amIJailbrokenWithFailMessage()
+  public static func amIJailbrokenWithFailMessage(_ skippedCases: Set<FailedCheck> = []) -> (jailbroken: Bool, failMessage: String) {
+    return JailbreakChecker.amIJailbrokenWithFailMessage(skippedCases)
   }
   
   /// This type method is used to determine the jailbreak status with a list of failed checks
@@ -55,7 +55,7 @@ public class IOSSecuritySuite {
   /// ```
   ///
   /// - Returns: Tuple with with the jailbreak status (Bool) and a list of ``FailedCheckType``
-  public static func amIJailbrokenWithFailedChecks() -> (jailbroken: Bool,
+  public static func amIJailbrokenWithFailedChecks(_ skippedCases: Set<FailedCheck> = []) -> (jailbroken: Bool,
                                                          failedChecks: [FailedCheckType]) {
     return JailbreakChecker.amIJailbrokenWithFailedChecks()
   }
